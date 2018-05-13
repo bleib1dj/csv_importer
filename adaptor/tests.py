@@ -259,7 +259,7 @@ class TestCsvImporter(TestCase):
         data = [test_data_template % my_model.id, test_data_template % (my_model.id + 999)]
         try:
             test = TestCsvDbForeign.import_data(data)
-        except CsvException, e:
+        except CsvException as e:
             self.assertEquals(e.message, u'Line 2: No match found for MyModel')
         else:
             self.assertTrue(False, "No valueError raised")
@@ -267,7 +267,7 @@ class TestCsvImporter(TestCase):
     def test_error_message_too_many_field(self):
         try:
             test = TestCsvModel.import_data(['1,error,12'])
-        except CsvException, e:
+        except CsvException as e:
             self.assertEquals(e.message, u'Line 1: Number of fields invalid')
         else:
             self.assertTrue(False, "No valueError raised")
@@ -275,7 +275,7 @@ class TestCsvImporter(TestCase):
     def test_error_message_integer_field(self):
         try:
             test = TestCsvModel.import_data(['1;error;12'])
-        except CsvException, e:
+        except CsvException as e:
             self.assertEquals(e.message,
                               u"Line 1: Value 'error' in columns 2 does not match the expected type Integer")
         else:
@@ -298,7 +298,7 @@ class TestCsvImporter(TestCase):
         self.assertRaises(CsvDataException, CsvValidator.import_data, ['11'])
         try:
             CsvValidator.import_data(['10'])
-        except CsvDataException, e:
+        except CsvDataException as e:
             self.assertTrue(False, "No exception should be raised")
         self.assertTrue(True)
 
@@ -566,7 +566,7 @@ class TestFields(TestCase):
         myModel2 = MyModel2.objects.create(other_pk=999)
         try:
             field.to_python(666)
-        except ValueError, e:
+        except ValueError as e:
             self.assertEquals(e.message, 'No match found for MyModel2')
         else:
             self.assertTrue(False, "No exception raised")
